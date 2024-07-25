@@ -1,3 +1,5 @@
+import { products } from "@/prisma/data/products";
+import Email from "next-auth/providers/email";
 import { z } from "zod";
 
 export const LoginSchema = z.object({
@@ -41,6 +43,7 @@ export const OrderSchema = z.object({
         .min(1, 'Tu Nombre es Obligatorio'),
     total: z.number()
         .min(1, 'Hay errores en la orden'),
+    tableId: z.string(),
     order: z.array(z.object({
         id: z.number(),
         name: z.string(),
@@ -72,3 +75,16 @@ export const ProductSchema = z.object({
         .or(z.number().min(1, { message: 'La Categoría es Obligatoria' })),
     image: z.string().min(1, { message: 'La imagen es obligatoria' })
 })
+
+
+export const BillOrderSchema = z.object({
+    idBill: z.string().min(1, { message: "El número de factura no puede estar vacío" }),
+    fecha: z.string().min(1, { message: "La fecha no puede estar vacía" }),
+    nameBusiness: z.string().min(1, { message: "El nombre o razón social no puede estar vacío" }),
+    nit: z.string().min(1, { message: "El NIT no puede estar vacío" }),
+    address: z.string().min(1, { message: "La dirección no puede estar vacía" }),
+    nameClient: z.string().min(1, { message: "El nombre del cliente no puede estar vacío" }),
+    emailClient: z.string().email({ message: "Debe ser un correo electrónico válido" }),
+    idClient: z.string().min(1, { message: "El ID del cliente no puede estar vacío" }),
+    phoneClient: z.string().min(1, { message: "El teléfono no puede estar vacío" })
+  });

@@ -1,4 +1,5 @@
 import { OrderWithProducts } from '@/src/types'
+import { formatCurrency } from '@/src/util'
 
 type lastestOrdenItemProps = {
     order: OrderWithProducts
@@ -31,6 +32,9 @@ export default function LatestOrdenItem({ order }: lastestOrdenItemProps) {
                     ))}
 
             </ul>
+            <p className='text-xl font-extrabold'>
+                {`${formatCurrency(order.total)}`}
+            </p>
         </div>
     )
 }

@@ -14,8 +14,17 @@ export default function OrderSummary() {
 
 
   const  handleCriateOrder = async (formData: FormData) => {
+
+    const tableId = formData.get('tableId')
+
+    if (!tableId) {
+      toast.error('Debe seleccionar una mesa')
+      return
+    }
+
     const data = {
       name: formData.get('name'),
+      tableId: tableId,
       total: total,
       order: order
     }
@@ -72,6 +81,13 @@ export default function OrderSummary() {
                 type="text"
                 placeholder="Ingresa tu nombre"
                 name="name"
+              />
+                 <input
+                className="w-full p-3 rounded bg-gray-100"
+                type="number"
+                placeholder="Número de mesa"
+                name="tableId"
+                min={1}
               />
               <input
                 type="submit"

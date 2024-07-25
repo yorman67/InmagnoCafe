@@ -8,46 +8,66 @@ datasource db {
 }
 
 model Category {
-  id  Int   @id   @default(autoincrement())
-  name  String
-  slug  String
+  id        Int      @id @default(autoincrement())
+  name      String
+  slug      String
   products  Product[]
 }
 
 model Product {
-  id  Int   @id   @default(autoincrement())
-  name  String
-  price Float
-  image String
+  id          Int              @id @default(autoincrement())
+  name        String
+  price       Float
+  image       String
   categoryId  Int
-  category  Category @relation(fields: [categoryId], references: [id])
-  orderItems OrderProducts[]
+  category    Category         @relation(fields: [categoryId], references: [id])
+  orderItems  OrderProduct[]
 }
 
 model Order {
-  id      Int   @id   @default(autoincrement())
-  name    String
-  total   Float
-  date    DateTime  @default(now())
-  status  Boolean   @default(false)
+  id            Int             @id @default(autoincrement())
+  name          String
+  total         Float
+  date          DateTime        @default(now())
+  status        Boolean         @default(false)
+  tableId       String
+  statusTable   Boolean         @default(false)
   orderReadyAt  DateTime?
-  orderProducts OrderProducts[]
+  orderProducts OrderProduct[]
+  orderPayments OrderPayment[]
 }
 
-model OrderProducts {
-  id      Int   @id   @default(autoincrement())
-  orderId Int
-  order   Order @relation(fields: [orderId], references: [id])
-  productId   Int
-  product   Product @relation(fields: [productId], references: [id])
+model OrderProduct {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  order     Order    @relation(fields: [orderId], references: [id])
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
   quantity  Int
-   @@unique([orderId, productId])
+  @@unique([orderId, productId])
 }
 
-model User{
-  id        Int   @id   @default(autoincrement())
-  email     String      @unique
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
   password  String
   name      String
-  role      String         @default("user")
+  role      String   @default("user")
+}
+
+model Payment {
+  id            BigInt         @id @default(autoincrement())
+  status        Boolean        @default(false)
+  type          String         @default("cash")
+  date          DateTime?
+  orderPayments OrderPayment[]
+}
+
+model OrderPayment {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  paymentId BigInt
+  payment   Payment @relation(fields: [paymentId], references: [id])
+  @@unique([orderId, paymentId])
 }

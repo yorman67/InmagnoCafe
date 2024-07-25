@@ -12,19 +12,21 @@ export async function createOrder(data:unknown) {
         }
     }
 
-    const { name, total, order } = result.data;
+    const { name, total, order, tableId} = result.data;
 
     try {
         await prisma.order.create({
             data: {
                 name,
                 total,
+                tableId,
+                statusTable: true,
                 orderProducts: {
                     create: order.map(product => ({
                         quantity: product.quantity,
                         productId: product.id,
                     })),
-                },
+                }
             },
         })
     } catch (error) {

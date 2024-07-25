@@ -13,7 +13,7 @@ const adminNavigation = [
 ]
 
 
-export default async function AdminSidebar() {
+export default  function AdminSidebar() {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 

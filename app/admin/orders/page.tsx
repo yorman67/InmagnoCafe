@@ -1,8 +1,8 @@
 "use client"
 import useSWR from "swr";
-import Logo from "@/components/ui/Logo";
 import { OrderWithProducts } from "@/src/types";
 import LatestOrdenItem from "@/components/order/LatestOrdenItem";
+import OrderSearchForm from "@/components/order/OrderSearchForm";
 
 
 export default function OrdersPage() {
@@ -17,6 +17,8 @@ export default function OrdersPage() {
         <>
             <h1 className="text-center mt-20 text-6xl font-black">Ordenes Listas</h1>
 
+            <OrderSearchForm />
+            
             {data.length ? (
                 <div className="grid grid-cols-2 gap-5 max-w-5xl mx-auto mt-10">
                     {data.map(order => (
