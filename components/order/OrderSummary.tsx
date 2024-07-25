@@ -7,7 +7,10 @@ import { createOrder } from "@/actions/create-order-action"
 import { OrderSchema } from "@/src/schema"
 import { toast } from "react-toastify"
 
-export default function OrderSummary() {
+type OrderSummaryProps = {
+  onClose: () => void
+}
+export default function OrderSummary({ onClose }: OrderSummaryProps) {
 
   const { order,clearOrder } = useStore()
   const total = useMemo(() => order.reduce((total, product) => total + product.subtotal, 0), [order])
@@ -46,6 +49,7 @@ export default function OrderSummary() {
 
     toast.success('Orden creada')
     clearOrder()
+    onClose()
   
   }
 
