@@ -1,29 +1,25 @@
+import CategoryIcon from "../ui/CategoryIcon";
+import Logo from "../ui/Logo";
+import { Category } from "@prisma/client";
 
-import { prisma } from "@/src/lib/prisma"
-import CategoryIcon from "../ui/CategoryIcon"
-import Logo from "../ui/Logo"
-
-async function getCategories() {
-  return await prisma.category.findMany()
+interface OrderSidebarProps {
+  categories: Category[];
+  onClose?: () => void; // Añadimos la función onClose opcional
 }
 
-export default async function OrderSidebar() {
-
-  const categories = await getCategories()
-
+export default function OrderSidebar({ categories, onClose }: OrderSidebarProps) {
   return (
     <aside className="md:w-72 md:h-screen bg-white">
-
       <Logo />
       <nav className="mt-10">
         {categories.map((category) => (
           <CategoryIcon
             key={category.id}
             category={category}
+            onClick={onClose} // Pasamos la función onClose a cada CategoryIcon
           />
         ))}
       </nav>
-
     </aside>
-  )
+  );
 }

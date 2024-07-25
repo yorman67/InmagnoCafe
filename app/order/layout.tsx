@@ -1,12 +1,20 @@
-import OrderSidebar from "@/components/order/OrderSidebar";
 import ClientWrapper from "@/components/order/ClientWrapper";
+import OrderSidebarClient from "@/components/order/OrderSideBarClient";
+import OrderSummary from "@/components/order/OrderSummary";
 import ToastNotification from "@/components/ui/ToastNotification";
+import { prisma } from '@/src/lib/prisma';
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+async function getCategories() {
+  return await prisma.category.findMany();
+}
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const categories = await getCategories();
+
   return (
     <>
       <div className="md:flex">
-        <OrderSidebar />
+        <OrderSidebarClient categories={categories} />
         <main className="md:flex-1 md:h-screen md:overflow-y-scroll p-5">
           {children}
         </main>
